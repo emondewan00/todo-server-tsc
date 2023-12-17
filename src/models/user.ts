@@ -14,15 +14,8 @@ const userSchema = new Schema({
         type: String,
         required: true,
         select: false,
-        validate: {
-            validator: function (password: string) {
-                return password.length >= 6
-            },
-            message: "Password must me 6 charecters"
-        }
     },
 }, { timestamps: true })
-
 
 
 const UserModel = model("User", userSchema);
