@@ -1,5 +1,6 @@
 import express from "express";
 import todoRoute from "./router/todo";
+import userRouter from "./router/user"
 import mongoose from "mongoose";
 require("dotenv").config()
 const app = express();
@@ -13,6 +14,7 @@ mongoose.connect("mongodb+srv://video-streamgin:n5L0uvvxw2t3lD8P@cluster0.jmqwkq
 
 
 app.use("/todos", todoRoute)
+app.use("/users", userRouter)
 
 app.get("/", (req: express.Request, res: express.Response) => {
     res.json({ message: "hello typescript server!" })

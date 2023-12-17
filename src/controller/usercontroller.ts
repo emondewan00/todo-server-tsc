@@ -23,7 +23,6 @@ export const updateUser = async (req: Request<{ id: string }>, res: Response) =>
     }
 }
 
-
 export const deleteUser = async (req: Request<{ id: string }>, res: Response) => {
     try {
         const _id = req.params.id;

@@ -11,6 +11,7 @@ interface todoBody {
 export const getAllTodos = async (req: Request, res: Response) => {
     try {
         const result = await TodoModel.find();
+        console.log("hello ", result)
         res.status(200).json(result)
     } catch (error) {
         res.send(error)
@@ -21,8 +22,8 @@ export const getAllTodos = async (req: Request, res: Response) => {
 export const getTodo = async (req: Request<{ id: string }>, res: Response) => {
     try {
         const _id = req.params.id;
-      
-        const result = await TodoModel.findById({_id});
+
+        const result = await TodoModel.findById({ _id });
         res.status(200).json(result)
     } catch (error) {
         res.send(error)

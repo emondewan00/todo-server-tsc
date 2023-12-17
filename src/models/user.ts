@@ -12,7 +12,14 @@ const userSchema = new Schema({
     },
     password: {
         type: String,
-        required: true
+        required: true,
+        select: false,
+        validate: {
+            validator: function (password: string) {
+                return password.length >= 6
+            },
+            message: "Password must me 6 charecters"
+        }
     },
 }, { timestamps: true })
 

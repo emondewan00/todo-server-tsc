@@ -11,13 +11,13 @@ export const register = async (req: Request, res: Response) => {
         if (existingUser) {
             return res.status(400).json({ message: "this email is already exist" })
         }
-
-        const saltGenare = bcrypt.genSaltSync(24)
-        const hashPassword = bcrypt.hashSync(password, saltGenare);
-        console.log(hashPassword)
-        const result = await UserModel.create({});
+        const saltRounds = 10;
+        const salt = bcrypt.genSaltSync(saltRounds);
+        const hashPassword = bcrypt.hashSync(password, salt);
+        const result = await UserModel.create({ email, username, password: hashPassword });
         res.status(200).json(result)
     } catch (error) {
+        console.log("hello register error ", error);
         res.send(error)
     }
 }
@@ -27,10 +27,17 @@ export const register = async (req: Request, res: Response) => {
 export const login = async (req: Request, res: Response) => {
     try {
         const { email, password } = req.body;
-        const result = await UserModel.find({ email });
+        const result = await UserModel.findOne({ email }).select("+password");
 
-        res.status(200).json(result)
+        if (!result) {
+            return res.status(404).json({ message: "user is not found!" });
+        }
+
+        const checkPass = bcrypt.compareSync(password, result.password);
+        console.log(checkPass, "pass")
+        res.status(200).json(result);
     } catch (error) {
+        console.log("hello login error ", error);
         res.send(error)
     }
 }
