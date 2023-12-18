@@ -11,7 +11,6 @@ interface todoBody {
 export const getAllTodos = async (req: Request, res: Response) => {
     try {
         const result = await TodoModel.find();
-        console.log("hello ", result)
         res.status(200).json(result)
     } catch (error) {
         res.send(error)
@@ -41,11 +40,24 @@ export const postTodo = async (req: Request<{}, {}, todoBody>, res: Response) =>
     }
 }
 
+
+export const editTodo = async (req: Request<{ id: string }>, res: Response) => {
+    try {
+        const _id = req.params.id;
+        const body = req.body;
+        const result = await TodoModel.updateOne({ _id }, body);
+        res.status(201).json(result)
+    } catch (error) {
+        res.send(error)
+    }
+}
+
+
 //delete a post 
 export const deleteToto = async (req: Request<{ id: string }>, res: Response) => {
     try {
         const _id = req.params.id;
-        const result = await TodoModel.deleteOne({ id: _id });
+        const result = await TodoModel.deleteOne({ _id });
         res.status(200).json(result)
     } catch (error) {
         res.send(error)
